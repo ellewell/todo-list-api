@@ -2,7 +2,13 @@
 
 ## Build / Run
     npm install
+    export TODO_PORT=<port>
+    export MONGO_URI="<uri>"
     npm run start
+
+Make sure to replace \<port\> with the port that you want to run the server on (for example, 3000) and \<uri\> with the mongodb uri of your database (usually looks like this, mongodb+srv://\<name\>:\<pass\>@\<host\>/\<db\>)
+
+For local testing you can also create a .env file using dotenv.template as a template
 
 ## Run Tests
     npm test

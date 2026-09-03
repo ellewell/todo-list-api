@@ -24,12 +24,14 @@ afterEach(async () => {
     }
 })
 
-test('POST / should return with status 200', async () => {
-    const response = await request(app).post('/').send({title: "Task 1"})
-    expect(response.statusCode).toBe(200)
-})
+describe("To-do API", () => {
+    test('should return a status 200 on POST /', async () => {
+        const response = await request(app).post('/api/v1/todo/').send({title: "Task 1"})
+        expect(response.statusCode).toBe(200)
+    })
 
-test('GET / should return with status 200', async () => {
-    const response = await request(app).get('/').send()
-    expect(response.statusCode).toBe(200)
+    test('should return a status 200 GET /', async () => {
+        const response = await request(app).get('/api/v1/todo/').send()
+        expect(response.statusCode).toBe(200)
+    })
 })

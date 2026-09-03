@@ -2,8 +2,10 @@ const todoItemModel = require('../models/todoItemModel')
 
 // Create a new item
 const createTodoItem = async (req, res) => {
-    const { title } = req.body
-    const todoItem = await todoItemModel.create({ title })
+    if(req.body && !('title' in req.body)) {
+        res.status(400).json({"error": "Can not create a todo item with a title"})
+    }
+    const todoItem = await todoItemModel.create({ ...req.body })
     res.status(200).json(todoItem)
 }
 

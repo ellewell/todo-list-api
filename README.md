@@ -12,3 +12,5 @@
 Programming Language: I will be implementing my solution in JavaScript (Node.js), but I may add TypeScript later if it looks like the benefits of static type checking will be worth the added complexity
 
 Interface: I will be implementing a RESTful API as my interface, this way I can focus on the backend logic and still have the option to write a SPA frontend in React later if there's time remaining
+
+Testing strategy: I will focus on integration testing my API using Jest + Supertest, but I may add additional unit tests if there's any business logic that needs testing.

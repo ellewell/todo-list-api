@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mongodb/mongodb-community-server:latest
+    ports:
+      - "27017:27017"
+
+  web-app:
+    image: todo-list-api
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      TODO_PORT: 3000
+      MONGO_URI: mongodb://db:27017/todolist?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.6
+    depends_on:
+      - db

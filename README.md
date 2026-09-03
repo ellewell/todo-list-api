@@ -10,6 +10,9 @@ Make sure to replace \<port\> with the port that you want to run the server on (
 
 For local testing you can also create a .env file using dotenv.template as a template
 
+## Build / Run with docker
+    docker compose up
+
 ## Api
 ### Create a new to-do item.
     curl --request POST \
@@ -97,4 +100,3 @@ Testing strategy: I will focus on integration testing my API using Jest + Supert
 Persistence: I will be using mongodb with mongoose as my ODM (object document mapper).Mongodb is scalable and by using mongoose there won't be much add complexity, in fact this approach may simplify some of the business logic and make it easier to implement some of the optional enhancements like filtering, sorting and input validation if there's time. For testing I will use the mongodb memory server.
 
 I decided to allow the client to pass args directly to the mongoose find and sort methods. This is quick to implement, provides the most flexibility and shouldn't increase the complexity of apps using the api by much. I can create a v2 api with a simpler interface later if there is time.
-

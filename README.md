@@ -10,6 +10,35 @@ Make sure to replace \<port\> with the port that you want to run the server on (
 
 For local testing you can also create a .env file using dotenv.template as a template
 
+## Api
+### Create a new to-do item.
+    curl --request POST \
+        --url http://localhost:3000/api/v1/todo \
+        --header 'Content-Type: application/json' \
+        --data '{
+        "title": "Title",
+        "description": "Description",
+        "dueDate": "Sep 3 2026",
+        "isCompleted": true
+    }'
+- title (string): is required
+- description (string): is optional
+- dueDate (date string): is optional
+- isCompleted (boolean): is optional but defaults to false if not passed
+- Any additional fields will be ignored
+
+### Display all to-do items
+    curl --request GET \
+        --url http://localhost:3000/api/v1/todo \
+        --header 'Content-Type: application/json' \
+        --data '{
+        "filter": { "isCompleted": true },
+        "sort": { "dueDate": 1 }
+    }'
+- filter (mongodb find args): optional
+- sort (mongodb sort args): optional
+- Any additional fields will be ignored
+
 ## Run Tests
     npm test
 
@@ -22,3 +51,6 @@ Interface: I will be implementing a RESTful API as my interface, this way I can 
 Testing strategy: I will focus on integration testing my API using Jest + Supertest, but I may add additional unit tests if there's any business logic that needs testing.
 
 Persistence: I will be using mongodb with mongoose as my ODM (object document mapper).Mongodb is scalable and by using mongoose there won't be much add complexity, in fact this approach may simplify some of the business logic and make it easier to implement some of the optional enhancements like filtering, sorting and input validation if there's time. For testing I will use the mongodb memory server.
+
+I decided to allow the client to pass args directly to the mongoose find and sort methods. This is quick to implement, provides the most flexibility and shouldn't increase the complexity of apps using the api by much. I can create a v2 api with a simpler interface later if there is time.
+

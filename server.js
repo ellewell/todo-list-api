@@ -17,7 +17,7 @@ async function main() {
 
     // Connect to the DB
     await mongoose.connect(mongo_uri)
-    console.log("Connected to the DB.")
+    console.log('Connected to the DB.')
 
     // Start the http server
     app.listen(port, () => {

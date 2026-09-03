@@ -17,4 +17,8 @@ const todoItemSchema = new mongoose.Schema({
     }
 }, {timestamps: true})
 
+todoItemSchema.statics.isIdValid = function(id) {
+    return mongoose.Types.ObjectId.isValid(id);
+}
+
 module.exports = mongoose.model('todoItem', todoItemSchema)

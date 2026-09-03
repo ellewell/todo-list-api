@@ -170,4 +170,91 @@ describe('To-do API', () => {
             expect(response.statusCode).toBe(200)
         })
     })
+
+    describe('GET /:id', () => {
+        test('should return the item if a valid id is passed', async () => {
+            const tmpResponse = await request(app).get('/api/v1/todo/').send()
+            const specificItem = tmpResponse.body[0]
+
+            const response = await request(app).get(`/api/v1/todo/${specificItem._id}`).send()
+            expect(response.statusCode).toBe(200)
+            expect(response.body.title).toBe(specificItem.title)
+            expect(response.body.description).toBeDefined()
+        })
+
+        test('should return an error if an invalid id is passed', async () => {
+            const response = await request(app).get('/api/v1/todo/123').send()
+            expect(response.statusCode).toBe(400)
+        })
+    })
+
+    describe('PUT /:id', () => {
+        test('should update the title, description and dueDate if a valid id is passed', async () => {
+            const getRes = await request(app).get('/api/v1/todo/').send()
+            const specificItem = getRes.body[0]
+
+            const putRes = await request(app).put(`/api/v1/todo/${specificItem._id}`).send({
+                title: 'Title',
+                description: 'Description',
+                dueDate: 'Sep 3 2026',
+                isCompleted: true       //This should not change
+            })
+            expect(putRes.statusCode).toBe(200)
+
+            const response = await request(app).get(`/api/v1/todo/${specificItem._id}`).send()
+            expect(response.statusCode).toBe(200)
+            expect(response.body.title).toBe('Title')
+            expect(response.body.description).toBe('Description')
+            expect(response.body.dueDate).toMatch(new RegExp('^2026-09-03'))
+            expect(response.body.isCompleted).toBe(false)
+        })
+
+        test('should return an error if an invalid id is passed', async () => {
+            const response = await request(app).delete('/api/v1/todo/123').send()
+            expect(response.statusCode).toBe(400)
+        })
+    })
+
+    describe('PATCH /:id', () => {
+        test('should update isCompleted if a valid id is passed', async () => {
+            const getRes = await request(app).get('/api/v1/todo/').send()
+            const specificItem = getRes.body[0]
+
+            const patchRes = await request(app).patch(`/api/v1/todo/${specificItem._id}`).send({
+                title: 'New Title',                 //This should not change
+                dueDate: 'Oct 10 2029',             //This should not change
+                isCompleted: true
+            })
+            expect(patchRes.statusCode).toBe(200)
+
+            const response = await request(app).get(`/api/v1/todo/${specificItem._id}`).send()
+            expect(response.statusCode).toBe(200)
+            expect(response.body.title).toBe(specificItem.title)
+            expect(response.body.dueDate).toMatch(specificItem.dueDate)
+            expect(response.body.isCompleted).toBe(true)
+        })
+
+        test('should return an error if an invalid id is passed', async () => {
+            const response = await request(app).delete('/api/v1/todo/123').send()
+            expect(response.statusCode).toBe(400)
+        })
+    })
+
+    describe('DELETE /:id', () => {
+        test('should delete the item if a valid id is passed', async () => {
+            const getRes = await request(app).get('/api/v1/todo/').send()
+            const specificItem = getRes.body[0]
+
+            const deleteRes = await request(app).delete(`/api/v1/todo/${specificItem._id}`).send()
+            expect(deleteRes.statusCode).toBe(200)
+
+            const response = await request(app).get(`/api/v1/todo/${specificItem._id}`).send()
+            expect(response.statusCode).toBe(400)
+        })
+
+        test('should return an error if an invalid id is passed', async () => {
+            const response = await request(app).delete('/api/v1/todo/123').send()
+            expect(response.statusCode).toBe(400)
+        })
+    })
 })

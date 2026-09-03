@@ -16,11 +16,11 @@ For local testing you can also create a .env file using dotenv.template as a tem
         --url http://localhost:3000/api/v1/todo \
         --header 'Content-Type: application/json' \
         --data '{
-        "title": "Title",
-        "description": "Description",
-        "dueDate": "Sep 3 2026",
-        "isCompleted": true
-    }'
+            "title": "Title",
+            "description": "Description",
+            "dueDate": "Sep 3 2026",
+            "isCompleted": true
+        }'
 - title (string): is required
 - description (string): is optional
 - dueDate (date string): is optional
@@ -32,12 +32,56 @@ For local testing you can also create a .env file using dotenv.template as a tem
         --url http://localhost:3000/api/v1/todo \
         --header 'Content-Type: application/json' \
         --data '{
-        "filter": { "isCompleted": true },
-        "sort": { "dueDate": 1 }
-    }'
+            "filter": { "isCompleted": true },
+            "sort": { "dueDate": 1 }
+        }'
 - filter (mongodb find args): optional
 - sort (mongodb sort args): optional
 - Any additional fields will be ignored
+
+### Show details of a specific to-do item by its ID.
+    curl --request GET \
+        --url http://localhost:3000/api/v1/todo/:id
+- :id (the _id value an existing item): required
+
+### Modify the title, description, or due date of an existing item by its ID.
+    curl --request PUT \
+        --url http://localhost:3000/api/v1/todo/:id \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "title": "Title",
+            "description": "Description",
+            "dueDate": "Sep 3 2026"
+        }'
+- :id (the _id value an existing item): required
+- title (string): is optional
+- description (string): is optional
+- dueDate (date string): is optional
+
+### Mark a specific to-do item as completed by its ID.
+    curl --request PATCH \
+        --url http://localhost:3000/api/v1/todo/:id \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "isCompleted": true
+        }'
+- :id (the _id value an existing item): required
+- isCompleted (boolean): is optional
+
+### Mark a specific to-do item as not completed by its ID.
+    curl --request PATCH \
+        --url http://localhost:3000/api/v1/todo/:id \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "isCompleted": false
+        }'
+- :id (the _id value an existing item): required
+- isCompleted (boolean): is optional
+
+### Remove a to-do item by its ID.
+    curl --request DELETE \
+        --url http://localhost:3000/api/v1/todo/:id
+- :id (the _id value an existing item): required
 
 ## Run Tests
     npm test
